@@ -1,0 +1,89 @@
+﻿<Window x:Class="ProjetJeuxVideo_LevelEditor_Metroidvania.Views.AnimationManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjetJeuxVideo_LevelEditor_Metroidvania.Views"
+        xmlns:local2="clr-namespace:ProjetJeuxVideo_LevelEditor_Metroidvania.HelperClasses"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Manage animated tiles" Height="450" Width="300">
+    <DockPanel>
+        <ScrollViewer DockPanel.Dock="Left">
+            <ItemsControl DockPanel.Dock="Left" ItemsSource="{Binding AnimatedTilesCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="1" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Left"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0.5" BorderBrush="DarkGray">
+                            <Viewbox Width="{Binding SizeInPixelAfterZoom}" Height="{Binding SizeInPixelAfterZoom}" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                                <Image>
+                                    <Image.Source>
+                                        <MultiBinding Converter="{x:Static local2:ImageAndRectToCroppedBitmapConverter.Default}">
+                                            <Binding Path="Tileset" />
+                                            <Binding Path="CropRect" />
+                                        </MultiBinding>
+                                    </Image.Source>
+                                </Image>
+                            </Viewbox>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="122" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="120" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Column="0" Grid.Row="0" Margin="20" Width="{Binding currentATB.SizeInPixelAfterZoom}" Height="{Binding currentATB.SizeInPixelAfterZoom}" RenderOptions.BitmapScalingMode="NearestNeighbor">
+                <Image>
+                    <Image.Source>
+                        <MultiBinding Converter="{x:Static local2:ImageAndRectToCroppedBitmapConverter.Default}">
+                            <Binding Path="currentATB.Tileset" />
+                            <Binding Path="currentATB.CropRect" />
+                        </MultiBinding>
+                    </Image.Source>
+                </Image>
+            </Viewbox>
+            <StackPanel Grid.Column="0" Grid.Row="1">
+                <Label>Tileset</Label>
+                <ComboBox DockPanel.Dock="Bottom" VerticalAlignment="Top" ItemsSource="{Binding TilesetDroplistOptions}" SelectedIndex="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <cmd:EventToCommand Command="{Binding Mode=OneWay, Path=TilesetComboboxChangedCommand}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <Label>Number of frames</Label>
+                <xctk:IntegerUpDown Width="50" Value="{Binding NumberOfFrames}" HorizontalAlignment="Right" />
+                <Label>Current Frame</Label>
+                <xctk:IntegerUpDown Width="50" Value="{Binding CurrentFrameModified}" HorizontalAlignment="Right" />
+                <Label />
+                <Separator />
+
+                <Label />
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                    <Label>x</Label>
+                    <xctk:IntegerUpDown Value="{Binding CurrentX}"  Width="45" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label>y</Label>
+                    <xctk:IntegerUpDown Value="{Binding CurrentY}" Width="45" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                </StackPanel>
+                <DockPanel>
+                    <xctk:IntegerUpDown DockPanel.Dock="Right" Value="{Binding CurrentShowTime}" Width="45" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    <Label>Show Time :</Label>
+                </DockPanel>
+                <Button Command="{Binding AddCommand}">Add</Button>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</Window>

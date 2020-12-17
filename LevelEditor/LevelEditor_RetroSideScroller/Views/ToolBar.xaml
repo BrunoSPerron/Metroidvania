@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="ProjetJeuxVideo_LevelEditor_Metroidvania.Views.ToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjetJeuxVideo_LevelEditor_Metroidvania.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Orientation="Horizontal">
+        <Label>Tool:</Label>
+        <Button Background="{Binding DrawBGColor}" Command="{Binding ClickDrawCommand}" Height="20" Width="40">Draw</Button>
+        <Button Background="{Binding FillBGColor}" Command="{Binding ClickFillCommand}" Height="20" Width="40">Fill</Button>
+        <Button Background="{Binding RectBGColor}" Command="{Binding ClickRectCommand}" Height="20" Width="40">Rect</Button>
+        <Label>| Layer:</Label>
+        <Button Background="{Binding BackBGColor}" Command="{Binding ClickBackCommand}" Height="20" Width="50">Back</Button>
+        <Button Background="{Binding DefaultBGColor}" Command="{Binding ClickDefaultCommand}" Height="20" Width="50">Default</Button>
+        <Button Background="{Binding FrontBGColor}" Command="{Binding ClickFrontCommand}" Height="20" Width="50">Front</Button>
+        <Label>|</Label>
+    </StackPanel>
+</UserControl>
